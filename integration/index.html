@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="frontline.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <h1>Frontline integration</h1>
+
+    <p>
+      Search: <span data-wundery-search />
+    </p>
+
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+      labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+      laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+      voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+      non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </p>
+
+    <script>
+      // Initialize new frontline client
+      var frontline = new Frontline({
+        checkoutEndpoint: 'http://localhost:8099',
+        apiEndpoint: 'http://localhost:8056',
+        storeId: '12879x1n9nss10',
+        debug: true,
+        mock: true,
+        auth: btoa(JSON.stringify({
+          algoliaAppId: '1337',
+          algoliaSearchApiKey: '42'
+        })),
+      });
+
+      // Initialize a search instance
+      var search = frontline.newSearch({
+        onSearch: function (term) { /* triggered on search */ },
+      });
+
+      // Inject the search
+      search.mount();
+    </script>
+  </body>
+</html>

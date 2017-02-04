@@ -1,0 +1,52 @@
+.wundery-search {
+  position: relative;
+  font-family: helvetica, arial, sans-serif;
+}
+
+.wundery-search-input-wrapper {}
+
+.wundery-search-input {
+  border-radius: 3px;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.wundery-search-results-wrapper {}
+
+.wundery-search-results {
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  position: absolute;
+  top: 28px;
+  min-width: 200px;
+  left: 0;
+}
+
+.wundery-search-result {
+  display: block;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  text-decoration: none;
+
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  &:hover {
+    background: #f7f7f7;
+  }
+}
+
+.wundery-search-result-title {
+  font-weight: bold;
+  font-size: 13px;
+  color: black;
+}
+
+.wundery-search-result-description {
+  color: #999;
+  font-size: 12px;
+  margin-top: 4px;
+}

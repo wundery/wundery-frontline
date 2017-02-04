@@ -1,0 +1,28 @@
+general:
+  branches:
+    ignore:
+      - master
+
+machine:
+  node:
+    version: stable
+  pre:
+    - pip install awscli
+
+dependencies:
+  pre:
+    - curl $WUNDERY_DEPLOYMENTS_ENDPOINT/start/$CIRCLE_PROJECT_REPONAME/$CIRCLE_SHA1-$CIRCLE_TAG/production/s3
+    - curl -o- -L https://yarnpkg.com/install.sh | bash
+  override:
+    - yarn install
+    - yarn build
+
+test:
+  override:
+    - echo "No Tests"
+
+deployment:
+  production:
+    tag: /v[0-9]+(\.[0-9]+)*/
+    commands:
+      - curl $WUNDERY_DEPLOYMENTS_ENDPOINT/finish/$CIRCLE_PROJECT_REPONAME/$CIRCLE_SHA1-$CIRCLE_TAG/production/s3
