@@ -4,21 +4,12 @@ Frontline is a javascript utility that brings interactive functionalities to Wun
 
 For all Frontline features -- such as search or cart -- the library has to be embedded in the head of your page and initialized before the closing body tag.
 
-### Embed
+### Embed and initialize frontline
 
-Place this in the `<head>` of your page:
+Place this in the `<head>` of your page. The snippet shows all features and possible configurations. For a list of available versions, click on the releases tab in this repo.
 
 ```html
 <script src="https://sdk.wundery.com/frontline/vx.x.x/frontline.js" />
-```
-
-For a list of available versions, click on the releases tab in this repo.
-
-### Initialization
-
-Place this before the closing body tag:
-
-```html
 <script type="text/javascript">
   var frontline = new Frontline({
     // Used API endpoint (required)
@@ -30,38 +21,60 @@ Place this before the closing body tag:
     // Current store ID (required)
     storeId: '1337',
 
-    // Auth data. This is non-sensitive but we deliver it encoded because thats more easier
+    // Auth data. This is non-sensitive but we deliver it encoded because thats easier
     // to transfer between systems. You cannot define this value by yourself. It is rendered
     // by our storefront engine (required)
     auth: '{{ store.sdk.auth }}',
-    
+
     // Debug mode enabled (optional, default: false)
     debug: true,
+  });
+
+  // Initializes the search
+  var search = frontline.newSearch({
+    // Triggered on every search keystroke. You may use this callback
+    // to send data to your own analytics backend, collecting statistics
+    // about what users search on your page.
+    onSearch: function (term) { /* Add your own stuff */ },
+  });
+
+  // Initializes the cookie banner
+  var cookieBanner = frontline.newCookieBanner({
+    // URL of the "More info" link (optional)
+    url: 'http://your.privacy/statement',
+
+    // Defines the banner position (optional, 'top' or 'bottom', default: 'bottom')
+    position: 'bottom',
+
+    // You can override the default translations
+    translations: {
+      info: '...',
+      more: '...',
+      acknowledge: '...',
+    },
   });
 </script>
 ```
 
 ## Search
 
-To inject the search box you have to place a target element anywhere into your page. This will be replaced by the search input box:
+To inject the search box you have to place a target element and a mount instruction anywhere into your page. This will be replaced by the search input box:
 
 ```html
 <span data-wundery-search />
+<script type="text/javascript">
+  search.mount();
+</script>
 ```
 
-Also, add the following lines to the initialization snippet:
+## Cookie banner
 
-```javascript
-// Initializes the search
-var search = frontline.newSearch({
-  // Triggered on every search keystroke. You may use this callback
-  // to send data to your own analytics backend, collecting statistics
-  // about what users search on your page.
-  onSearch: function (term) { /* Add your own stuff */ },
-});
+The cookie banner is injected autoatically when you place the following snippet anywhere within the `<body>` tag:
 
-// Injects the search into the page
-search.mount();
+```html
+<script type="text/javascript">
+  search.mount();
+</script>
 ```
 
 ## Custom styling

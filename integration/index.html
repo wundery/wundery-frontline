@@ -2,23 +2,7 @@
   <head>
     <meta charset="utf-8">
     <script type="text/javascript" src="frontline.js" charset="utf-8"></script>
-  </head>
-  <body>
-    <h1>Frontline integration</h1>
-
-    <p>
-      Search: <span data-wundery-search />
-    </p>
-
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
-      labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
-      laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
-      voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
-      non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    </p>
-
-    <script>
+    <script type="text/javascript">
       // Initialize new frontline client
       var frontline = new Frontline({
         checkoutEndpoint: 'http://localhost:8099',
@@ -37,8 +21,34 @@
         onSearch: function (term) { /* triggered on search */ },
       });
 
-      // Inject the search
-      search.mount();
+      // Initialize a cookie banner
+      var cookieBanner = frontline.newCookieBanner({
+        position: 'bottom',
+        url: 'http://google.com',
+      });
     </script>
+  </head>
+  <body>
+    <script type="text/javascript">
+      cookieBanner.mount();
+    </script>
+
+    <h1>Frontline integration</h1>
+
+    <p style="text-align: center">
+      Search: <span data-wundery-search />
+      <script type="text/javascript">
+        search.mount();
+      </script>
+    </p>
+
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
+      labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco
+      laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in
+      voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat
+      non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    </p>
+
   </body>
 </html>
