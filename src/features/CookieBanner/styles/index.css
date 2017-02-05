@@ -6,20 +6,29 @@
   font-family: Helvetica, Arial, sans-serif;
   text-align: left;
 
-  a {
+  .wundery-cookie-banner-info {
+    margin-right: 10px;
+  }
+
+  .wundery-cookie-banner-link {
     color: white;
     text-decoration: underline;
     font-weight: bold;
-    margin-left: 10px;
+    margin-right: 10px;
   }
 
-  button {
+  .wundery-cookie-banner-button {
     background: white;
+    align-items: center;
+    border-radius: 2px;
     border: 0;
+    cursor: pointer;
+    display: flex;
     font-size: 12px;
     font-weight: bold;
-    margin-left: 10px;
+    margin: 10px;
     padding: 4px 8px;
+    flex-wrap: wrap;
   }
 
   &.wundery-cookie-banner-top, &.wundery-cookie-banner-bottom {

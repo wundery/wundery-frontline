@@ -18,13 +18,20 @@ function CookieBanner({ cookieBanner, t }) {
 
   return (
     <div className={className}>
-      {cookieBanner.translation('info', t('info'))}
+      <div className="wundery-cookie-banner-info">
+        {cookieBanner.translation('info', t('info'))}
+      </div>
       {url && (
-        <a href={url} target="_blank" rel="noopener noreferrer">
+        <a
+          className="wundery-cookie-banner-link"
+          href={url}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {cookieBanner.translation('more', t('more'))}
         </a>
       )}
-      <button onClick={onAcknowledgeClick}>
+      <button onClick={onAcknowledgeClick} className="wundery-cookie-banner-button">
         {cookieBanner.translation('acknowledge', t('acknowledge'))}
       </button>
     </div>
