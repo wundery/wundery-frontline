@@ -76,12 +76,10 @@ class Frontline {
    * Log important information
    */
   logInfo() {
-    const { apiEndpoint, checkoutEndpoint, storeId } = this.options;
+    const { storeId } = this.options;
 
     this.log('Building new Frontline instance');
     this.log(`Version: ${config.get('version')}`);
-    this.log(`apiEndpoint: ${apiEndpoint}`);
-    this.log(`checkoutEndpoint: ${checkoutEndpoint}`);
     this.log(`Used locale: ${translation.locale}`);
     this.log(`Auth: ${this.authStatus}`);
     this.log(`storeId: ${storeId}`);
