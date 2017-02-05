@@ -63,10 +63,10 @@ class Frontline {
     }
 
     try {
-      this.decodedAuthData = JSON.parse(atob(this.requireOption('auth')));
+      this.decodedAuthData = JSON.parse(window.atob(this.requireOption('auth')));
       this.authStatus = 'decoded';
       return this.decodedAuthData;
-    } catch(error) {
+    } catch (error) {
       this.authStatus = 'decoding-failed';
       return {};
     }
@@ -95,8 +95,10 @@ class Frontline {
       if (args && typeof args[0] === 'string') {
         const newArgs = args;
         newArgs[0] = `[Frontline] ${newArgs[0]}`;
+        // eslint-disable-next-line no-console
         console.log(...newArgs);
       } else {
+        // eslint-disable-next-line no-console
         console.log(...args);
       }
     }

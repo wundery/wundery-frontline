@@ -1,6 +1,8 @@
-const path = require('path');
 const webpack = require('webpack');
-const fs = require('fs');
+const path = require('path');
+const postcss = require('postcss-nested');
+const autoprefixer = require('autoprefixer');
+
 const version = process.env.VERSION || 'unknown';
 
 module.exports = {
@@ -34,27 +36,48 @@ module.exports = {
           {
             loader: 'postcss-loader',
             options: {
-              plugins: function () {
-                return [
-                  require('postcss-nested'),
-                  require('autoprefixer')
-                ];
-              }
-            }
-          }
-        ]
+              plugins: () => [postcss, autoprefixer],
+            },
+          },
+        ],
       },
-    ]
+      {
+        test: /\.svg$/,
+        loaders: [
+          {
+            loader: 'babel-loader',
+            query: {
+              presets: ['es2015'],
+            },
+          },
+          {
+            loader: 'react-svg-loader',
+            query: {
+              jsx: true,
+              svgo: {
+                plugins: [{ removeTitle: false }],
+                floatPrecision: 2,
+              },
+            },
+          },
+        ],
+      },
+    ],
   },
 
   resolve: {
+    modules: [
+      path.resolve(process.cwd(), 'node_modules'),
+      'node_modules',
+    ],
     alias: {
+      assets: path.resolve(process.cwd(), 'src/assets'),
       features: path.resolve(process.cwd(), 'src/features'),
+      globals: path.resolve(process.cwd(), 'src/globals'),
       middlewares: path.resolve(process.cwd(), 'src/middlewares'),
       services: path.resolve(process.cwd(), 'src/services'),
       translations: path.resolve(process.cwd(), 'src/translations'),
       utils: path.resolve(process.cwd(), 'src/utils'),
-      globals: path.resolve(process.cwd(), 'src/globals'),
     },
   },
 };
