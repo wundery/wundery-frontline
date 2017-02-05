@@ -14,11 +14,16 @@
   }
 
   button {
+    background: white;
+    border: 0;
+    font-size: 12px;
+    font-weight: bold;
     margin-left: 10px;
+    padding: 4px 8px;
   }
 
   &.wundery-cookie-banner-top, &.wundery-cookie-banner-bottom {
-    position: absolute;
+    position: fixed;
     right: 0;
     left: 0;
   }
