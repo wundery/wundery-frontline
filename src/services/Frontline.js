@@ -1,5 +1,5 @@
 import has from 'lodash/has';
-import { Cart, Search } from 'services';
+import { Cart, CookieBanner, Search } from 'services';
 import { config, translation } from 'globals';
 
 class Frontline {
@@ -43,6 +43,12 @@ class Frontline {
     this.log('Building new search instance');
 
     return new Search(this, options);
+  }
+
+  newCookieBanner(options = {}) {
+    this.log('Building new cookie banner instance');
+
+    return new CookieBanner(this, options);
   }
 
   newCart(options = {}) {
