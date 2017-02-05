@@ -5,6 +5,8 @@
   padding: 6px;
   font-family: Helvetica, Arial, sans-serif;
   text-align: left;
+  display: flex;
+  align-items: center;
 
   .wundery-cookie-banner-info {
     margin-right: 10px;
@@ -26,7 +28,6 @@
     display: flex;
     font-size: 12px;
     font-weight: bold;
-    margin: 10px;
     padding: 4px 8px;
     flex-wrap: wrap;
   }
