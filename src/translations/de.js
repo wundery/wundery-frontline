@@ -22,7 +22,6 @@ export default {
     search: {
       components: {
         searchResults: {
-          placeholder: 'Suche',
           noResultsHeadline: 'Es wurden keine Produkte gefunden',
           oneResultHeadline: 'Es wurde ein Produkt gefunden',
           resultsHeadline: 'Es wurden ${resultsCount} Produkte gefunden',
