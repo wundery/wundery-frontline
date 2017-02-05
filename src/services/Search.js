@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { SearchApi } from 'wundery-js-lib';
-import { Searchbox } from 'features/Searchbox';
-import { config } from 'globals';
+import { Search as SearchComponent } from 'features/Search';
 
 class Search {
   static findNodeByDataAttribute() {
@@ -44,7 +43,7 @@ class Search {
     const node = Search.findNodeByDataAttribute();
 
     if (node) {
-      ReactDOM.render(<Searchbox search={this} />, node);
+      ReactDOM.render(<SearchComponent search={this} />, node);
     } else {
       throw new Error('No node found to mount search');
     }

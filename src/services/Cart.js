@@ -1,11 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Cartbox } from 'features/Cartbox';
+import { Cart as CartComponent } from 'features/Cart';
 
 class Cart {
   constructor(frontlineClient, options) {
-    this.injected = false;
+    this.options = options;
     this.frontlineClient = frontlineClient;
+
+    this.injected = false;
   }
 
   inject() {
@@ -16,7 +18,7 @@ class Cart {
 
     const node = this.injectDomNode();
 
-    ReactDOM.render(<Cartbox cart={this} />, node);
+    ReactDOM.render(<CartComponent cart={this} />, node);
 
     // Track injection state
     this.injected = true;
@@ -24,13 +26,6 @@ class Cart {
     return this;
   }
 
-  injectDomNode() {
-    // Inject the target node
-    var div = document.createElement('div');
-    div.setAttribute('data-wundery-cart', '');
-    document.body.prepend(div);
-    return div;
-  }
 
   discover() {
     this.log('Discovering cart interaction elements');

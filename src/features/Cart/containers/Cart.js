@@ -1,12 +1,10 @@
 import React from 'react';
-import css from '../styles/index.css';
 import { withTranslation } from 'globals';
+// eslint-disable-next-line no-unused-vars
+import css from '../styles/index.css';
 
-class Cartbox extends React.Component {
+class Cart extends React.Component {
   static propTypes = {
-    // The wundery cart instance
-    cart: React.PropTypes.object.isRequired,
-
     // Translate helper
     t: React.PropTypes.func.isRequired,
   };
@@ -18,16 +16,14 @@ class Cartbox extends React.Component {
   }
 
   render() {
-    const { cart, t } = this.props;
-
-    cart.log('Rendering cart');
+    const { t } = this.props;
 
     return (
       <div className="wundery-cart">
         {t('cart')}
       </div>
-    )
+    );
   }
-};
+}
 
-export default withTranslation('features.cartbox', 'containers.cartbox')(Cartbox);
+export default withTranslation('features.cart', 'containers.cart')(Cart);
