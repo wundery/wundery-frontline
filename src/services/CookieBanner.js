@@ -89,7 +89,8 @@ class CookieBanner {
     // Inject the target node
     const div = document.createElement('div');
     div.setAttribute(CookieBanner.domNodeName, '');
-    document.body.prepend(div);
+    const firstChild = document.body.firstChild;
+    firstChild.parentNode.insertBefore(div, firstChild);
     return div;
   }
 
