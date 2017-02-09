@@ -73,7 +73,7 @@ The cookie banner is injected autoatically when you place the following snippet 
 
 ```html
 <script type="text/javascript">
-  search.mount();
+  cookieBanner.mount();
 </script>
 ```
 
