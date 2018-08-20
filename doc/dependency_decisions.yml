@@ -1,0 +1,82 @@
+---
+- - :whitelist
+  - MIT
+  - &1
+    :who: 
+    :why: 
+    :versions: []
+    :when: 2018-08-20 17:51:47.632716000 Z
+- - :whitelist
+  - ISC
+  - *1
+- - :whitelist
+  - Apache 2.0
+  - &2
+    :who: 
+    :why: 
+    :versions: []
+    :when: 2018-08-20 17:52:51.904273000 Z
+- - :whitelist
+  - Simplified BSD
+  - *2
+- - :whitelist
+  - "(GPL-2.0 OR MIT)"
+  - *2
+- - :whitelist
+  - New BSD
+  - *2
+- - :whitelist
+  - "(MIT AND CC-BY-3.0)"
+  - *2
+- - :whitelist
+  - BSD-3-Clause OR MIT
+  - &3
+    :who: 
+    :why: 
+    :versions: []
+    :when: 2018-08-20 18:13:15.371502000 Z
+- - :whitelist
+  - BSD
+  - *3
+- - :whitelist
+  - MIT*
+  - *3
+- - :whitelist
+  - "(BSD-2-Clause OR MIT OR Apache-2.0)"
+  - *3
+- - :whitelist
+  - "(WTFPL OR MIT)"
+  - *3
+- - :whitelist
+  - Public Domain
+  - *3
+- - :whitelist
+  - BSD*
+  - :who: 
+    :why: 
+    :versions: []
+    :when: 2018-08-20 18:13:33.846055000 Z
+- - :approve
+  - spdx-license-ids
+  - :who: PF
+    :why: Used in local dev build only, no distribution
+    :versions: []
+    :when: 2018-08-20 18:13:42.942777000 Z
+- - :approve
+  - tweetnacl
+  - :who: PF
+    :why: Used in local dev build only, no distribution
+    :versions: []
+    :when: 2018-08-20 18:13:49.439472000 Z
+- - :approve
+  - sntp
+  - :who: PF
+    :why: Used in local dev build only, no distribution
+    :versions: []
+    :when: 2018-08-20 18:13:54.621772000 Z
+- - :approve
+  - caniuse-db
+  - :who: PF
+    :why: Used in local dev build only, no distribution
+    :versions: []
+    :when: 2018-08-20 18:14:12.115702000 Z
