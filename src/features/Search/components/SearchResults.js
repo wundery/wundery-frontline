@@ -18,7 +18,11 @@ function SearchResults({ results, resultsRef, term, t, showDescription }) {
   }
 
   function searchURL(){
-    return window.location.origin + "/search&q=" + encodeURIComponent(term);
+    var queryPath = "search&q=" + encodeURIComponent(term);
+    if (window.location.hostname == "localhost")
+      return window.location.href.match(/\S*fragment=/g)[0] + queryPath
+    else
+      return window.location.origin + '/' + queryPath
   }
 
   return results && results.length > 0 && (
