@@ -25,6 +25,7 @@ export default {
           noResultsHeadline: 'No products found',
           oneResultHeadline: 'One product found',
           resultsHeadline: '${resultsCount} products were found',
+          seeAll: 'See all results (${count})'
         },
         searchInput: {
           placeholder: 'Search',

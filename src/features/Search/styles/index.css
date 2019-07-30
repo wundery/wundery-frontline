@@ -51,6 +51,14 @@
   overflow-y: scroll;
 }
 
+.wundery-search-results .see-all {
+  display: block;
+  width: 100%;
+  text-align: center;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
 .wundery-search-result {
   display: flex;
   padding: 10px;

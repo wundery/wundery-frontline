@@ -2,7 +2,8 @@ import React from 'react';
 import { withTranslation } from 'globals';
 import SearchResult from './SearchResult';
 
-function SearchResults({ results, resultsRef, t, showDescription }) {
+function SearchResults({ results, resultsRef, term, t, showDescription }) {
+
   // Renders the headline based on the number of results
   function renderHeadline() {
     if (results.length === 0) {
@@ -16,6 +17,10 @@ function SearchResults({ results, resultsRef, t, showDescription }) {
     return t('resultsHeadline', { resultsCount: results.length });
   }
 
+  function searchURL(){
+    return window.location.origin + "/search&q=" + encodeURIComponent(term);
+  }
+
   return results && results.length > 0 && (
     <span className="wundery-search-results-wrapper" ref={resultsRef}>
       <div className="wundery-search-results-header">
@@ -25,6 +30,7 @@ function SearchResults({ results, resultsRef, t, showDescription }) {
         {results.map((result, index) => (
           <SearchResult key={index} result={result} showDescription={showDescription} />
         ))}
+        <a href={searchURL()} className='see-all'>{t('seeAll', {count: results.length})}</a>
       </div>
     </span>
   );
