@@ -4767,9 +4767,10 @@ write@^0.2.1:
   dependencies:
     mkdirp "^0.5.1"
 
-wundery-js-lib@1.0.4:
-  version "1.0.4"
-  resolved "https://registry.yarnpkg.com/wundery-js-lib/-/wundery-js-lib-1.0.4.tgz#503884e89d2a604202a7d27ab6fabaae475e2130"
+wundery-js-lib@1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/wundery-js-lib/-/wundery-js-lib-1.0.5.tgz#8201c866d0c96cb1c78b3f7e585212d1eb172082"
+  integrity sha512-z4nJZ2lJc9XZCYFTCAMMzd3ODtQlu6Dkt2OrswKxM9avjRGefptpnXpKqq/T1D/UACJBgoJl1r6DYGi7bhskcA==
   dependencies:
     algoliasearch "^3.20.4"
     lodash "^4.17.4"

@@ -2,8 +2,7 @@ import React from 'react';
 import { withTranslation } from 'globals';
 import SearchResult from './SearchResult';
 
-function SearchResults({ results, resultsRef, term, t, showDescription }) {
-
+function SearchResults({ results, resultsRef, term, t, showDescription, total }) {
   // Renders the headline based on the number of results
   function renderHeadline() {
     if (results.length === 0) {
@@ -34,7 +33,7 @@ function SearchResults({ results, resultsRef, term, t, showDescription }) {
         {results.map((result, index) => (
           <SearchResult key={index} result={result} showDescription={showDescription} />
         ))}
-        <a href={searchURL()} className='see-all'>{t('seeAll', {count: results.length})}</a>
+        <a href={searchURL()} className='see-all'>{t('seeAll', {count: total})}</a>
       </div>
     </span>
   );

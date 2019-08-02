@@ -25,7 +25,7 @@ export default {
           noResultsHeadline: 'Es wurden keine Produkte gefunden',
           oneResultHeadline: 'Es wurde ein Produkt gefunden',
           resultsHeadline: 'Es wurden ${resultsCount} Produkte gefunden',
-          seeAll: 'Alle Treffer (${count})'
+          seeAll: 'Alle Ergebnisse (${count})'
         },
         searchInput: {
           placeholder: 'Suche',

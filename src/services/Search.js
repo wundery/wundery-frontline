@@ -30,7 +30,7 @@ class Search {
       onSearch(term);
     }
 
-    return this.searchApi.search(this.indexName, term);
+    return this.searchApi.search(this.indexName, term, null, true);
   }
 
   getIndexName() {
