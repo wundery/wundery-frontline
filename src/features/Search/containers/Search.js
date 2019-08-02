@@ -28,6 +28,9 @@ class Search extends React.Component {
       // Search results
       results: [],
 
+      // Search total
+      total: 0,
+
       // Error
       error: null,
     };
@@ -77,7 +80,11 @@ class Search extends React.Component {
   }
 
   searchSuccess = (results) => {
-    this.setState({ searching: false, results });
+    this.setState({
+      searching: false,
+      results: results.products,
+      total: results.total
+    });
   }
 
   searchError = (error) => {
@@ -85,12 +92,12 @@ class Search extends React.Component {
   }
 
   render() {
-    const { results, term } = this.state;
+    const { results, term, total } = this.state;
 
     return (
       <span className="wundery-search">
         <SearchInput onChange={this.onSearch} inputRef={this.setSearchInputRef} term={term} />
-        <SearchResults results={results} resultsRef={this.setSearchResultsRef} />
+        <SearchResults results={results} resultsRef={this.setSearchResultsRef} term={term} total={total}/>
       </span>
     );
   }
