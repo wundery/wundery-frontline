@@ -33,7 +33,8 @@ function SearchResults({ results, resultsRef, term, t, showDescription, total })
         {results.map((result, index) => (
           <SearchResult key={index} result={result} showDescription={showDescription} />
         ))}
-        <a href={searchURL()} className='see-all'>{t('seeAll', {count: total})}</a>
+        {total > 5 && <a href={searchURL()} className='see-all'>{t('seeAll', {count: total})}</a>
+        }
       </div>
     </span>
   );
