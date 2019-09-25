@@ -1,12 +1,16 @@
 import React from 'react';
 import truncate from 'lodash/truncate';
 import { withTranslation } from 'globals';
+import queryString from 'query-string';
 
 function SearchResult({ showDescription, result }) {
   const { description, title, image, url } = result;
 
+  const params = queryString.parse(window.location.search);
+  const urlFormat = params.d ? `${url}&d=${params.d}` : url ;
+
   return (
-    <a className="wundery-search-result" href={url}>
+    <a className="wundery-search-result" href={urlFormat}>
       {image && (
         <div className="wundery-search-result-image">
           <img src={image} alt="" />
