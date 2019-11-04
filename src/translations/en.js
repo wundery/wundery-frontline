@@ -14,7 +14,7 @@ export default {
       containers: {
         cookieBanner: {
           info: 'This website uses cookies to',
-          acknowledge: 'Okay, git it',
+          acknowledge: 'Okay, got it',
           more: 'More information',
         },
       },
