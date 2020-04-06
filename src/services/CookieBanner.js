@@ -5,6 +5,7 @@ import isEmpty from 'lodash/isEmpty';
 import has from 'lodash/has';
 import get from 'lodash/get';
 import { CookieBanner as CookieBannerComponent } from 'features/CookieBanner';
+import { translation } from 'globals';
 
 class CookieBanner {
   static cookieName = 'wundery_cookieUsageAcknowledged';
@@ -76,6 +77,8 @@ class CookieBanner {
     this.log('Injecting cookie banner');
 
     const node = this.injectDomNode();
+
+    translation.useLocale(get(this.options, 'locale') || 'en');
 
     ReactDOM.render(<CookieBannerComponent cookieBanner={this} />, node);
 
