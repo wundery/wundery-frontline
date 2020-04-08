@@ -13,7 +13,7 @@ export default {
     cookieBanner: {
       containers: {
         cookieBanner: {
-          info: 'This website uses cookies to',
+          info: 'This website uses cookies.',
           acknowledge: 'Okay, got it',
           more: 'More information',
         },
