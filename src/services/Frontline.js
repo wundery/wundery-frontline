@@ -5,7 +5,7 @@ import { config, translation } from 'globals';
 class Frontline {
   static defaultOptions = {
     debug: false,
-    mock: false,
+    mock: false
   };
 
   constructor(options = {}) {
@@ -29,6 +29,8 @@ class Frontline {
 
     this.decodeAuthData();
     this.logInfo();
+
+    translation.locale = this.options['locale'];
   }
 
   requireOption(name) {
