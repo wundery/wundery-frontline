@@ -93,10 +93,11 @@ class Search extends React.Component {
 
   render() {
     const { results, term, total } = this.state;
+    const { design } = this.props;
 
     return (
       <span className="wundery-search">
-        <SearchInput onChange={this.onSearch} inputRef={this.setSearchInputRef} term={term} />
+        <SearchInput onChange={this.onSearch} inputRef={this.setSearchInputRef} term={term} design={design} />
         <SearchResults results={results} resultsRef={this.setSearchResultsRef} term={term} total={total}/>
       </span>
     );

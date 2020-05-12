@@ -37,13 +37,13 @@ class Search {
     return `store-${this.frontlineClient.requireOption('storeId')}-public`;
   }
 
-  mount() {
+  mount(design) {
     this.log('Mounting search');
 
     const node = Search.findNodeByDataAttribute();
 
     if (node) {
-      ReactDOM.render(<SearchComponent search={this} />, node);
+      ReactDOM.render(<SearchComponent search={this} design={design} />, node);
     } else {
       throw new Error('No node found to mount search');
     }
