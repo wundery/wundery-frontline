@@ -74,6 +74,27 @@ class Frontline {
     }
   }
 
+  insertAfter(referenceNode, newNode) {
+    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+  }
+
+  appendTextNextToCopyright(locale) {
+    document.addEventListener('DOMContentLoaded', (event) => {
+      var branchbobLink = "https://www.branchbob.com/" + (locale == 'de' ? 'en' : '');
+      var element = document.querySelector('.footer-wrapper .credits, .copy-right .container p');
+      if(element){
+        element.innerHTML += (" | <a href='"+branchbobLink+"'>Powered by Branchbob</a>")
+      }
+      var elemenInBobAlice = document.querySelector('.footer .list-inline:last-child');
+      if(elemenInBobAlice) {
+        var el = document.createElement("a");
+        el.href = branchbobLink;
+        el.innerHTML = "Powered by Branchbob";
+        this.insertAfter(elemenInBobAlice, el);
+      }
+    })
+  }
+
   /**
    * Log important information
    */
