@@ -80,16 +80,16 @@ class Frontline {
 
   appendTextNextToCopyright(locale) {
     document.addEventListener('DOMContentLoaded', (event) => {
-      var branchbobLink = "https://www.branchbob.com/" + (locale == 'de' ? 'en' : '');
+      var branchbobLink = "https://www.branchbob.com/" + (locale == 'de' ? '' : 'en');
       var element = document.querySelector('.footer-wrapper .credits, .copy-right .container p');
       if(element){
-        element.innerHTML += (" | <a href='"+branchbobLink+"'>Powered by Branchbob</a>")
+        element.innerHTML += (" | <a href='"+branchbobLink+"'>Powered by branchbob</a>")
       }
       var elemenInBobAlice = document.querySelector('.footer .list-inline:last-child');
       if(elemenInBobAlice) {
         var el = document.createElement("a");
         el.href = branchbobLink;
-        el.innerHTML = "Powered by Branchbob";
+        el.innerHTML = "Powered by branchbob";
         this.insertAfter(elemenInBobAlice, el);
       }
     })
