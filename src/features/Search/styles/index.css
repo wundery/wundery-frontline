@@ -31,10 +31,18 @@
   border: 1px solid #ccc;
   border-radius: 3px;
   position: absolute;
-  top: 28px;
+  top: 30px;
   min-width: 300px;
   left: 0;
   z-index: 10000;
+  &.classAndoid {
+    top: 49px;
+    left: -8px;
+  }
+
+  &.classiOS {
+    top: -2px;
+  }
 }
 
 .wundery-search-results-header {

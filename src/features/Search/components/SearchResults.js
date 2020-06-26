@@ -2,7 +2,7 @@ import React from 'react';
 import { withTranslation } from 'globals';
 import SearchResult from './SearchResult';
 
-function SearchResults({ results, resultsRef, term, t, showDescription, total }) {
+function SearchResults({ results, resultsRef, term, t, showDescription, total, className }) {
   // Renders the headline based on the number of results
   function renderHeadline() {
     if (results.length === 0) {
@@ -25,7 +25,7 @@ function SearchResults({ results, resultsRef, term, t, showDescription, total })
   }
 
   return results && results.length > 0 && (
-    <span className="wundery-search-results-wrapper" ref={resultsRef}>
+    <span className={`wundery-search-results-wrapper ${className}`} ref={resultsRef}>
       <div className="wundery-search-results-header">
         {renderHeadline()}
       </div>

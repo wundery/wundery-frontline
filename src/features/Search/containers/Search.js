@@ -33,6 +33,9 @@ class Search extends React.Component {
 
       // Error
       error: null,
+
+      // class search results
+      className: '',
     };
   }
 
@@ -56,9 +59,15 @@ class Search extends React.Component {
 
   onSearch = (event) => {
     const term = event.target.value;
+    let objectState = { searching: true, term };
 
-    this.setState({ searching: true, term });
+    if( /Android/i.test(navigator.userAgent) ) {
+      objectState['className'] = 'classAndoid'
+    } else if ( /iOS/i.test(navigator.userAgent) ) {
+      objectState['className'] = 'classiOS'
+    }
 
+    this.setState(objectState);
     this.search(term).then(
       this.searchSuccess,
       this.searchError,
@@ -92,13 +101,13 @@ class Search extends React.Component {
   }
 
   render() {
-    const { results, term, total } = this.state;
+    const { results, term, total, className } = this.state;
     const { design } = this.props;
 
     return (
       <span className="wundery-search">
         <SearchInput onChange={this.onSearch} inputRef={this.setSearchInputRef} term={term} design={design} />
-        <SearchResults results={results} resultsRef={this.setSearchResultsRef} term={term} total={total}/>
+        <SearchResults className={className} results={results} resultsRef={this.setSearchResultsRef} term={term} total={total}/>
       </span>
     );
   }
