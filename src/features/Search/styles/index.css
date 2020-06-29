@@ -45,9 +45,28 @@
   }
 }
 
+.search-desktop {
+  .wundery-search-results-wrapper {
+    top: 41px;
+  }
+}
+
+.search-mobile {
+  .wundery-search-results-wrapper {
+    top: 43px;
+    left: 0px;
+  }
+}
+
 @media not all and (min-resolution:.001dpcm) {
   .wundery-search-results-wrapper {
     top: 0px;
+  }
+
+  .search-mobile {
+    .wundery-search-results-wrapper {
+      top: 1px;
+    }
   }
 }
 
@@ -57,6 +76,18 @@
     &.classAndoid {
       top: -1px;
       left: 0px;
+    }
+  }
+
+  .search-desktop {
+    .wundery-search-results-wrapper {
+      top: 13px;
+    }
+  }
+
+  .search-mobile {
+    .wundery-search-results-wrapper {
+      top: 16px;
     }
   }
 }
