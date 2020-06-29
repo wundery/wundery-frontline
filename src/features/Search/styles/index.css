@@ -36,12 +36,28 @@
   left: 0;
   z-index: 10000;
   &.classAndoid {
-    top: 49px;
+    top: 50px;
     left: -8px;
   }
 
   &.classiOS {
-    top: -2px;
+    top: 0px;
+  }
+}
+
+@media not all and (min-resolution:.001dpcm) {
+  .wundery-search-results-wrapper {
+    top: 0px;
+  }
+}
+
+@supports (-moz-appearance:none) and (-webkit-appearance:none) {
+  .wundery-search-results-wrapper {
+    top: 10px;
+    &.classAndoid {
+      top: -1px;
+      left: 0px;
+    }
   }
 }
 
