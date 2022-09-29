@@ -1,11 +1,11 @@
-import has from 'lodash/has';
-import { Cart, CookieBanner, Search } from 'services';
-import { config, translation } from 'globals';
+import has from "lodash/has";
+import { Cart, CookieBanner, Search } from "services";
+import { config, translation, loadInfinityClasses } from "globals";
 
 class Frontline {
   static defaultOptions = {
     debug: false,
-    mock: false
+    mock: false,
   };
 
   constructor(options = {}) {
@@ -19,7 +19,7 @@ class Frontline {
      * Tracks info about auth status
      * @type {String}
      */
-    this.authStatus = 'encoded';
+    this.authStatus = "encoded";
 
     /**
      * Containes the decoded auth information
@@ -29,8 +29,9 @@ class Frontline {
 
     this.decodeAuthData();
     this.logInfo();
+    this.pagination();
 
-    translation.locale = this.options['locale'];
+    translation.locale = this.options["locale"];
   }
 
   requireOption(name) {
@@ -42,19 +43,19 @@ class Frontline {
   }
 
   newSearch(options = {}) {
-    this.log('Building new search instance');
+    this.log("Building new search instance");
 
     return new Search(this, options);
   }
 
   newCookieBanner(options = {}) {
-    this.log('Building new cookie banner instance');
+    this.log("Building new cookie banner instance");
 
     return new CookieBanner(this, options);
   }
 
   newCart(options = {}) {
-    this.log('Building new cart instance');
+    this.log("Building new cart instance");
 
     return new Cart(this, options);
   }
@@ -65,11 +66,13 @@ class Frontline {
     }
 
     try {
-      this.decodedAuthData = JSON.parse(window.atob(this.requireOption('auth')));
-      this.authStatus = 'decoded';
+      this.decodedAuthData = JSON.parse(
+        window.atob(this.requireOption("auth"))
+      );
+      this.authStatus = "decoded";
       return this.decodedAuthData;
     } catch (error) {
-      this.authStatus = 'decoding-failed';
+      this.authStatus = "decoding-failed";
       return {};
     }
   }
@@ -79,20 +82,26 @@ class Frontline {
   }
 
   appendTextNextToCopyright(locale) {
-    document.addEventListener('DOMContentLoaded', (event) => {
-      var branchbobLink = "https://www.branchbob.com/" + (locale == 'de' ? '' : 'en');
-      var element = document.querySelector('.footer-wrapper .credits, .copy-right .container p');
-      if(element){
-        element.innerHTML += (" | <a href='"+branchbobLink+"'>Powered by branchbob</a>")
+    document.addEventListener("DOMContentLoaded", (event) => {
+      var branchbobLink =
+        "https://www.branchbob.com/" + (locale == "de" ? "" : "en");
+      var element = document.querySelector(
+        ".footer-wrapper .credits, .copy-right .container p"
+      );
+      if (element) {
+        element.innerHTML +=
+          " | <a href='" + branchbobLink + "'>Powered by branchbob</a>";
       }
-      var elemenInBobAlice = document.querySelector('.footer .list-inline:last-child');
-      if(elemenInBobAlice) {
+      var elemenInBobAlice = document.querySelector(
+        ".footer .list-inline:last-child"
+      );
+      if (elemenInBobAlice) {
         var el = document.createElement("a");
         el.href = branchbobLink;
         el.innerHTML = "Powered by branchbob";
         this.insertAfter(elemenInBobAlice, el);
       }
-    })
+    });
   }
 
   /**
@@ -101,8 +110,8 @@ class Frontline {
   logInfo() {
     const { storeId } = this.options;
 
-    this.log('Building new Frontline instance');
-    this.log(`Version: ${config.get('version')}`);
+    this.log("Building new Frontline instance");
+    this.log(`Version: ${config.get("version")}`);
     this.log(`Used locale: ${translation.locale}`);
     this.log(`Auth: ${this.authStatus}`);
     this.log(`storeId: ${storeId}`);
@@ -113,7 +122,7 @@ class Frontline {
    */
   log(...args) {
     if (this.options.debug) {
-      if (args && typeof args[0] === 'string') {
+      if (args && typeof args[0] === "string") {
         const newArgs = args;
         newArgs[0] = `[Frontline] ${newArgs[0]}`;
         // eslint-disable-next-line no-console
@@ -123,6 +132,56 @@ class Frontline {
         console.log(...args);
       }
     }
+  }
+
+  pagination() {
+    document.addEventListener("DOMContentLoaded", () => {
+      var page = 1;
+      var win = $(window);
+      var loadingNow = false;
+      var categoryId = $(loadInfinityClasses.category).data("id");
+
+      const { designId, storeId, apiEndpoint } = this.options;
+
+      if (categoryId) {
+        $(window).scroll(function () {
+          var isPageCategory = $(loadInfinityClasses.category).length;
+          if (isPageCategory && $(loadInfinityClasses.loadMore).length) {
+            if (
+              $(document).height() -
+                $(loadInfinityClasses.footer).outerHeight() <=
+              win.scrollTop() + win.height()
+            ) {
+              if (loadingNow) {
+                return;
+              }
+              $(loadInfinityClasses.loadMore).show();
+              loadingNow = true;
+              $.ajax({
+                url: `${apiEndpoint}/products.json`,
+                method: "GET",
+                data: {
+                  store_id: storeId,
+                  category_id: categoryId,
+                  page: page + 1,
+                  design_id: designId,
+                  q: new URLSearchParams(document.location.search).get("q"),
+                },
+                success: function (res) {
+                  $(loadInfinityClasses.appendProducts).append(res.html);
+                  $(loadInfinityClasses.loadMore).hide();
+                  page = page + 1;
+                  if (page == res.total_pages) {
+                    $(loadInfinityClasses.loadMore).remove();
+                  }
+                  loadingNow = false;
+                },
+              });
+            }
+          }
+        });
+      }
+    });
   }
 }
 
