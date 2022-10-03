@@ -18,10 +18,3 @@ export const withTranslation = (...args) =>
 
 // Build a central config object
 export const config = new Config({ version: VERSION });
-
-export const loadInfinityClasses = {
-  category: ".category",
-  loadMore: ".load-more",
-  footer: ".footer-wrapper",
-  appendProducts: ".products",
-};

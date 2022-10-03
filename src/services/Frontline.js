@@ -1,6 +1,8 @@
 import has from "lodash/has";
 import { Cart, CookieBanner, Search } from "services";
-import { config, translation, loadInfinityClasses } from "globals";
+import { config, translation } from "globals";
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 
 class Frontline {
   static defaultOptions = {
@@ -134,48 +136,89 @@ class Frontline {
     }
   }
 
+  httpRequestWrapper = (method, URL) => {
+    return new Promise((resolve, reject) => {
+      const xhr_obj = new XMLHttpRequest();
+      xhr_obj.responseType = "json";
+      xhr_obj.open(method, URL);
+      xhr_obj.onload = () => {
+        const data = xhr_obj.response;
+        resolve(data);
+      };
+      xhr_obj.onerror = () => {
+        reject("failed");
+      };
+      xhr_obj.send();
+    });
+  };
+
+  async getProducts(apiEndpoint, params) {
+    return await this.httpRequestWrapper(
+      "GET",
+      `${apiEndpoint}/products.json?${params}`
+    );
+  }
+
   pagination() {
     document.addEventListener("DOMContentLoaded", () => {
       var page = 1;
-      var win = $(window);
       var loadingNow = false;
-      var categoryId = $(loadInfinityClasses.category).data("id");
 
-      const { designId, storeId, apiEndpoint } = this.options;
+      var categoryId = document
+        .querySelector(LOAD_INFINITY_CLASSES.category)
+        .getAttribute("data-id");
 
       if (categoryId) {
-        $(window).scroll(function () {
-          var isPageCategory = $(loadInfinityClasses.category).length;
-          if (isPageCategory && $(loadInfinityClasses.loadMore).length) {
+        window.addEventListener("scroll", (event) => {
+          var categoryPage = document.querySelector(
+            LOAD_INFINITY_CLASSES.category
+          );
+          var loadMore = document.querySelector(LOAD_INFINITY_CLASSES.loadMore);
+          if (
+            typeof categoryPage != "undefined" &&
+            categoryPage != null &&
+            typeof loadMore != "undefined" &&
+            loadMore != null
+          ) {
+            const { designId, storeId, apiEndpoint } = this.options;
+
             if (
-              $(document).height() -
-                $(loadInfinityClasses.footer).outerHeight() <=
-              win.scrollTop() + win.height()
+              window.innerHeight + window.scrollY >=
+              document.body.offsetHeight -
+                document.querySelector(LOAD_INFINITY_CLASSES.footer)
+                  .offsetHeight
             ) {
               if (loadingNow) {
                 return;
               }
-              $(loadInfinityClasses.loadMore).show();
+              document.querySelector(
+                LOAD_INFINITY_CLASSES.loadMore
+              ).style.display = "block";
               loadingNow = true;
-              $.ajax({
-                url: `${apiEndpoint}/products.json`,
-                method: "GET",
-                data: {
-                  store_id: storeId,
-                  category_id: categoryId,
-                  page: page + 1,
-                  design_id: designId,
-                  q: new URLSearchParams(document.location.search).get("q"),
-                },
-                success: function (res) {
-                  $(loadInfinityClasses.appendProducts).append(res.html);
-                  $(loadInfinityClasses.loadMore).hide();
-                  page = page + 1;
-                  if (page == res.total_pages) {
-                    $(loadInfinityClasses.loadMore).remove();
-                  }
+
+              var params = `store_id=${storeId}&category_id=${categoryId}&page=${
+                page + 1
+              }&design_id=${designId}&q=${new URLSearchParams(
+                document.location.search
+              ).get("q")}`;
+              this.getProducts(apiEndpoint, params).then((response) => {
+                page = page + 1;
+                var products = document.querySelector(
+                  LOAD_INFINITY_CLASSES.appendProducts
+                );
+
+                products.innerHTML += response.html;
+                document.querySelector(
+                  LOAD_INFINITY_CLASSES.loadMore
+                ).style.display = "none";
+                if (page == response.total_pages) {
+                  document
+                    .querySelector(LOAD_INFINITY_CLASSES.loadMore)
+                    .remove();
+                }
+                setTimeout(() => {
                   loadingNow = false;
-                },
+                }, 1000);
               });
             }
           }
