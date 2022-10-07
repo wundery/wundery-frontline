@@ -136,6 +136,10 @@ class Frontline {
     }
   }
 
+  /**
+   * Load Infinity
+   */
+
   httpRequestWrapper = (method, URL) => {
     return new Promise((resolve, reject) => {
       const xhr_obj = new XMLHttpRequest();
@@ -159,6 +163,25 @@ class Frontline {
     );
   }
 
+  footerHeight = () => {
+    var sum = 0;
+    LOAD_INFINITY_CLASSES.footer.split(",").forEach((className) => {
+      var element = document.querySelector(className);
+      if (typeof element != "undefined" && element != null) {
+        sum += element.offsetHeight;
+      }
+    });
+    return sum;
+  };
+
+  populateUI = (newProducts) => {
+    var products = document.querySelector(LOAD_INFINITY_CLASSES.appendProducts);
+
+    products.insertAdjacentHTML("beforeend", newProducts);
+    document.querySelector(LOAD_INFINITY_CLASSES.loadMore).style.display =
+      "none";
+  };
+
   pagination() {
     document.addEventListener("DOMContentLoaded", () => {
       var page = 1;
@@ -169,11 +192,12 @@ class Frontline {
         .getAttribute("data-id");
 
       if (categoryId) {
-        window.addEventListener("scroll", (event) => {
+        window.addEventListener("scroll", () => {
           var categoryPage = document.querySelector(
             LOAD_INFINITY_CLASSES.category
           );
           var loadMore = document.querySelector(LOAD_INFINITY_CLASSES.loadMore);
+
           if (
             typeof categoryPage != "undefined" &&
             categoryPage != null &&
@@ -184,9 +208,7 @@ class Frontline {
 
             if (
               window.innerHeight + window.scrollY >=
-              document.body.offsetHeight -
-                document.querySelector(LOAD_INFINITY_CLASSES.footer)
-                  .offsetHeight
+              document.body.offsetHeight - this.footerHeight()
             ) {
               if (loadingNow) {
                 return;
@@ -203,22 +225,14 @@ class Frontline {
               ).get("q")}`;
               this.getProducts(apiEndpoint, params).then((response) => {
                 page = page + 1;
-                var products = document.querySelector(
-                  LOAD_INFINITY_CLASSES.appendProducts
-                );
+                this.populateUI(response.html);
 
-                products.innerHTML += response.html;
-                document.querySelector(
-                  LOAD_INFINITY_CLASSES.loadMore
-                ).style.display = "none";
                 if (page == response.total_pages) {
                   document
                     .querySelector(LOAD_INFINITY_CLASSES.loadMore)
                     .remove();
                 }
-                setTimeout(() => {
-                  loadingNow = false;
-                }, 1000);
+                loadingNow = false;
               });
             }
           }
