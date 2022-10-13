@@ -149,7 +149,7 @@ class Frontline {
   }
 
   footerHeight = () => {
-    var sum = 0;
+    let sum = 0;
     LOAD_INFINITY_CLASSES.footer.split(",").forEach((className) => {
       const element = document.querySelector(className);
       if (element != null) {
@@ -171,8 +171,8 @@ class Frontline {
 
   pagination() {
     document.addEventListener("DOMContentLoaded", () => {
-      var page = 1;
-      var loadingNow = false;
+      let page = 1;
+      let loadingNow = false;
 
       const categoryId = document
         .querySelector(LOAD_INFINITY_CLASSES.category)
