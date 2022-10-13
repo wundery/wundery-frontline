@@ -140,42 +140,29 @@ class Frontline {
    * Load Infinity
    */
 
-  httpRequestWrapper = (method, URL) => {
-    return new Promise((resolve, reject) => {
-      const xhr_obj = new XMLHttpRequest();
-      xhr_obj.responseType = "json";
-      xhr_obj.open(method, URL);
-      xhr_obj.onload = () => {
-        const data = xhr_obj.response;
-        resolve(data);
-      };
-      xhr_obj.onerror = () => {
-        reject("failed");
-      };
-      xhr_obj.send();
-    });
-  };
-
   async getProducts(apiEndpoint, params) {
-    return await this.httpRequestWrapper(
-      "GET",
-      `${apiEndpoint}/products.json?${params}`
-    );
+    const response = await fetch(`${apiEndpoint}/products.json?${params}`, {
+      method: "GET",
+    });
+
+    return response.json();
   }
 
   footerHeight = () => {
     var sum = 0;
     LOAD_INFINITY_CLASSES.footer.split(",").forEach((className) => {
-      var element = document.querySelector(className);
-      if (typeof element != "undefined" && element != null) {
-        sum += element.offsetHeight;
+      const element = document.querySelector(className);
+      if (element != null) {
+        sum += element.getBoundingClientRect().height;
       }
     });
     return sum;
   };
 
   populateUI = (newProducts) => {
-    var products = document.querySelector(LOAD_INFINITY_CLASSES.appendProducts);
+    const products = document.querySelector(
+      LOAD_INFINITY_CLASSES.appendProducts
+    );
 
     products.insertAdjacentHTML("beforeend", newProducts);
     document.querySelector(LOAD_INFINITY_CLASSES.loadMore).style.display =
@@ -187,23 +174,20 @@ class Frontline {
       var page = 1;
       var loadingNow = false;
 
-      var categoryId = document
+      const categoryId = document
         .querySelector(LOAD_INFINITY_CLASSES.category)
         .getAttribute("data-id");
 
       if (categoryId) {
         window.addEventListener("scroll", () => {
-          var categoryPage = document.querySelector(
+          const categoryPage = document.querySelector(
             LOAD_INFINITY_CLASSES.category
           );
-          var loadMore = document.querySelector(LOAD_INFINITY_CLASSES.loadMore);
+          const loadMore = document.querySelector(
+            LOAD_INFINITY_CLASSES.loadMore
+          );
 
-          if (
-            typeof categoryPage != "undefined" &&
-            categoryPage != null &&
-            typeof loadMore != "undefined" &&
-            loadMore != null
-          ) {
+          if (categoryPage != null && loadMore != null) {
             const { designId, storeId, apiEndpoint } = this.options;
 
             if (
@@ -218,11 +202,16 @@ class Frontline {
               ).style.display = "block";
               loadingNow = true;
 
-              var params = `store_id=${storeId}&category_id=${categoryId}&page=${
-                page + 1
-              }&design_id=${designId}&q=${new URLSearchParams(
-                document.location.search
-              ).get("q")}`;
+              const params = new URLSearchParams();
+              params.set("store_id", storeId);
+              params.set("category_id", categoryId);
+              params.set("page", page + 1);
+              params.set("design_id", designId);
+              params.set(
+                "q",
+                new URLSearchParams(document.location.search).get("q")
+              );
+
               this.getProducts(apiEndpoint, params).then((response) => {
                 page = page + 1;
                 this.populateUI(response.html);
