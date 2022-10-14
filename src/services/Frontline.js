@@ -31,6 +31,9 @@ class Frontline {
 
     this.decodeAuthData();
     this.logInfo();
+
+    this.page = 1;
+    this.loadNow = false;
     this.pagination();
 
     translation.locale = this.options["locale"];
@@ -148,15 +151,40 @@ class Frontline {
     return response.json();
   }
 
-  footerHeight = () => {
-    let sum = 0;
-    LOAD_INFINITY_CLASSES.footer.split(",").forEach((className) => {
-      const element = document.querySelector(className);
-      if (element != null) {
-        sum += element.getBoundingClientRect().height;
+  loadProducts = (designId, storeId, categoryId, apiEndpoint) => {
+    if (this.loadingNow) {
+      return;
+    }
+    this.loadingNow = true;
+
+    const params = new URLSearchParams();
+    params.set("store_id", storeId);
+    params.set("category_id", categoryId);
+    params.set("page", this.page + 1);
+    params.set("design_id", designId);
+    params.set("q", new URLSearchParams(document.location.search).get("q"));
+
+    this.getProducts(apiEndpoint, params).then((response) => {
+      this.page = this.page + 1;
+      this.populateUI(response.html);
+
+      if (this.page == response.total_pages) {
+        document.querySelector(LOAD_INFINITY_CLASSES.loadMore).remove();
       }
+      this.loadingNow = false;
     });
-    return sum;
+  };
+
+  createObserver = (designId, storeId, categoryId, apiEndpoint) => {
+    const intersectionObserver = new IntersectionObserver((entries) => {
+      if (entries[0].intersectionRatio <= 0) return;
+
+      this.loadProducts(designId, storeId, categoryId, apiEndpoint);
+    });
+
+    intersectionObserver.observe(
+      document.querySelector(LOAD_INFINITY_CLASSES.loadMore)
+    );
   };
 
   populateUI = (newProducts) => {
@@ -165,67 +193,17 @@ class Frontline {
     );
 
     products.insertAdjacentHTML("beforeend", newProducts);
-    document.querySelector(LOAD_INFINITY_CLASSES.loadMore).style.display =
-      "none";
   };
 
   pagination() {
     document.addEventListener("DOMContentLoaded", () => {
-      let page = 1;
-      let loadingNow = false;
-
       const categoryId = document
         .querySelector(LOAD_INFINITY_CLASSES.category)
         .getAttribute("data-id");
 
+      const { designId, storeId, apiEndpoint } = this.options;
       if (categoryId) {
-        window.addEventListener("scroll", () => {
-          const categoryPage = document.querySelector(
-            LOAD_INFINITY_CLASSES.category
-          );
-          const loadMore = document.querySelector(
-            LOAD_INFINITY_CLASSES.loadMore
-          );
-
-          if (categoryPage != null && loadMore != null) {
-            const { designId, storeId, apiEndpoint } = this.options;
-
-            if (
-              window.innerHeight + window.scrollY >=
-              document.body.offsetHeight - this.footerHeight()
-            ) {
-              if (loadingNow) {
-                return;
-              }
-              document.querySelector(
-                LOAD_INFINITY_CLASSES.loadMore
-              ).style.display = "block";
-              loadingNow = true;
-
-              const params = new URLSearchParams();
-              params.set("store_id", storeId);
-              params.set("category_id", categoryId);
-              params.set("page", page + 1);
-              params.set("design_id", designId);
-              params.set(
-                "q",
-                new URLSearchParams(document.location.search).get("q")
-              );
-
-              this.getProducts(apiEndpoint, params).then((response) => {
-                page = page + 1;
-                this.populateUI(response.html);
-
-                if (page == response.total_pages) {
-                  document
-                    .querySelector(LOAD_INFINITY_CLASSES.loadMore)
-                    .remove();
-                }
-                loadingNow = false;
-              });
-            }
-          }
-        });
+        this.createObserver(designId, storeId, categoryId, apiEndpoint);
       }
     });
   }
