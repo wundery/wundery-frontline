@@ -101,11 +101,6 @@
   color: #999;
 }
 
-.wundery-search-results {
-  max-height: 300px;
-  overflow-y: scroll;
-}
-
 .wundery-search-results .see-all {
   display: block;
   width: 100%;

@@ -39,7 +39,6 @@ function SearchResults({
         className={`wundery-search-results-wrapper ${className}`}
         ref={resultsRef}
       >
-        <div className="wundery-search-results-header">{renderHeadline()}</div>
         <div className="wundery-search-results">
           {results.map((result, index) => (
             <SearchResult
