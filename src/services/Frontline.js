@@ -32,8 +32,8 @@ class Frontline {
     this.decodeAuthData();
     this.logInfo();
 
-    this.page = 1;
     if (typeof LOAD_INFINITY_CLASSES !== "undefined") {
+      this.page = 1;
       this.pagination();
     }
 
