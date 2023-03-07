@@ -58,7 +58,7 @@
   }
 }
 
-@media not all and (min-resolution:.001dpcm) {
+@media not all and (min-resolution: 0.001dpcm) {
   .wundery-search-results-wrapper {
     top: 0px;
   }
@@ -70,7 +70,7 @@
   }
 }
 
-@supports (-moz-appearance:none) and (-webkit-appearance:none) {
+@supports (-moz-appearance: none) and (-webkit-appearance: none) {
   .wundery-search-results-wrapper {
     top: 10px;
     &.classAndoid {
@@ -90,20 +90,6 @@
       top: 16px;
     }
   }
-}
-
-.wundery-search-results-header {
-  border-bottom: 1px solid #f5f5f5;
-  padding: 10px;
-  text-align: left;
-  font-size: 12px;
-  font-weight: normal;
-  color: #999;
-}
-
-.wundery-search-results {
-  max-height: 300px;
-  overflow-y: scroll;
 }
 
 .wundery-search-results .see-all {
