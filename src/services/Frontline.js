@@ -33,8 +33,9 @@ class Frontline {
     this.logInfo();
 
     this.page = 1;
-    this.loadNow = false;
-    this.pagination();
+    if (typeof LOAD_INFINITY_CLASSES !== "undefined") {
+      this.pagination();
+    }
 
     translation.locale = this.options["locale"];
   }
