@@ -1,19 +1,43 @@
-export de from "./de";
-export en from "./en";
-export bg from "./bg";
-export es from "./es";
-export it from "./it";
-export ar from "./ar";
-export fr from "./fr";
-export bn from "./bn";
-export fil from "./fil";
-export hi from "./hi";
-export id from "./id";
-export my from "./my";
-export pl from "./pl";
-export pt from "./pt";
-export ru from "./ru";
-export th from "./th";
-export tr from "./tr";
-export vi from "./vi";
-export zh from "./zh";
+import de from "./de";
+import en from "./en";
+import bg from "./bg";
+import es from "./es";
+import it from "./it";
+import ar from "./ar";
+import fr from "./fr";
+import bn from "./bn";
+import fil from "./fil";
+import hi from "./hi";
+import id from "./id";
+import my from "./my";
+import pl from "./pl";
+import pt from "./pt";
+import ru from "./ru";
+import th from "./th";
+import tr from "./tr";
+import vi from "./vi";
+import zh from "./zh";
+import ckb from "./ckb";
+
+export default {
+  en,
+  de,
+  bg,
+  es,
+  it,
+  ar,
+  fr,
+  bn,
+  fil,
+  hi,
+  id,
+  my,
+  pl,
+  pt,
+  ru,
+  th,
+  tr,
+  vi,
+  zh,
+  ckb,
+};
