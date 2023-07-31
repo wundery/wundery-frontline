@@ -18,3 +18,4 @@ export tr from "./tr";
 export vi from "./vi";
 export zh from "./zh";
 export ckb from "./ckb";
+export nl from "./nl";
