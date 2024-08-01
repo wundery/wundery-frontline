@@ -172,20 +172,36 @@ class Frontline {
       if (this.page == response.total_pages) {
         document.querySelector(LOAD_INFINITY_CLASSES.loadMore).remove();
       }
+
+      this.loadingNow = false;
+    }).catch((error) => {
+      console.error('Error loading products:', error);
       this.loadingNow = false;
     });
   };
 
   createObserver = (designId, storeId, categoryId, apiEndpoint) => {
+    const options = {
+      root: null,
+      rootMargin: '0px 0px 500px 0px', // Trigger 500px before the loading spinner element is in view.
+      threshold: 0
+    };
+
     const intersectionObserver = new IntersectionObserver((entries) => {
-      if (entries[0].intersectionRatio <= 0) return;
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          this.loadProducts(designId, storeId, categoryId, apiEndpoint)
+        }
+      });
+    }, options);
 
-      this.loadProducts(designId, storeId, categoryId, apiEndpoint);
-    });
+    const loadMoreElement = document.querySelector(LOAD_INFINITY_CLASSES.loadMore);
 
-    intersectionObserver.observe(
-      document.querySelector(LOAD_INFINITY_CLASSES.loadMore)
-    );
+    if (loadMoreElement) {
+      intersectionObserver.observe(loadMoreElement);
+    } else {
+      console.error('Loading spinner element not found');
+    }
   };
 
   populateUI = (newProducts) => {
