@@ -165,42 +165,59 @@ class Frontline {
     params.set("design_id", designId);
     params.set("q", new URLSearchParams(document.location.search).get("q"));
 
+    const loadMoreBtn = document.querySelector(".load-more-btn");
+    const loadingSpinner = loadMoreBtn && loadMoreBtn.querySelector("img");
+    const loadMoreBtnText = loadMoreBtn && loadMoreBtn.querySelector(".load-more-btn-text");
+
     this.getProducts(apiEndpoint, params).then((response) => {
       this.page = this.page + 1;
       this.populateUI(response.html);
 
       if (this.page == response.total_pages) {
-        document.querySelector(LOAD_INFINITY_CLASSES.loadMore).remove();
+        const loadMore = document.querySelector(LOAD_INFINITY_CLASSES.loadMore);
+        if (loadMore) {
+          loadMore.remove();
+        }
+
+        const loadMoreBtnWrapper = document.querySelector('.load-more-btn-wrapper');
+        if (loadMoreBtnWrapper) {
+          loadMoreBtnWrapper.remove();
+        }
+      } else {
+        if (loadMoreBtn) {
+          loadingSpinner.classList.add('display-off');
+          loadMoreBtnText.classList.remove('display-off');
+          loadMoreBtn.disabled = false;
+        }
       }
 
       this.loadingNow = false;
     }).catch((error) => {
       console.error('Error loading products:', error);
+
+      if (loadMoreBtn) {
+        loadingSpinner.classList.add('display-off');
+        loadMoreBtnText.classList.remove('display-off');
+        loadMoreBtn.disabled = false;
+      }
+
       this.loadingNow = false;
     });
   };
 
   createObserver = (designId, storeId, categoryId, apiEndpoint) => {
-    const options = {
-      root: null,
-      rootMargin: '0px 0px 500px 0px', // Trigger 500px before the loading spinner element is in view.
-      threshold: 0
-    };
-
     const intersectionObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           this.loadProducts(designId, storeId, categoryId, apiEndpoint)
         }
       });
-    }, options);
+    });
 
     const loadMoreElement = document.querySelector(LOAD_INFINITY_CLASSES.loadMore);
 
     if (loadMoreElement) {
       intersectionObserver.observe(loadMoreElement);
-    } else {
-      console.error('Loading spinner element not found');
     }
   };
 
@@ -221,6 +238,18 @@ class Frontline {
       const { designId, storeId, apiEndpoint } = this.options;
       if (categoryId) {
         this.createObserver(designId, storeId, categoryId, apiEndpoint);
+      }
+
+      const loadMoreBtn = document.querySelector(".load-more-btn");
+      const loadingSpinner = loadMoreBtn && loadMoreBtn.querySelector("img");
+      const loadMoreBtnText = loadMoreBtn&& loadMoreBtn.querySelector(".load-more-btn-text");
+      if(loadMoreBtn && loadingSpinner && loadMoreBtnText) {
+        loadMoreBtn.addEventListener("click", () => {
+          loadingSpinner.classList.remove('display-off');
+          loadMoreBtnText.classList.add('display-off');
+          loadMoreBtn.disabled = true;
+          this.loadProducts(designId, storeId, categoryId, apiEndpoint)
+        })
       }
     });
   }
