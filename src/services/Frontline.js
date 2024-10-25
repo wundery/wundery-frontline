@@ -1,5 +1,5 @@
 import has from "lodash/has";
-import { Cart, CookieBanner, Search } from "services";
+import { Cart, CookieBanner, Search, ElasticSearch } from "services";
 import { config, translation } from "globals";
 import "core-js/stable";
 import "regenerator-runtime/runtime";
@@ -52,6 +52,12 @@ class Frontline {
     this.log("Building new search instance");
 
     return new Search(this, options);
+  }
+
+  newElasticSearch(options = {}) {
+    this.log("Building new elastic search instance");
+
+    return new ElasticSearch(this, options);
   }
 
   newCookieBanner(options = {}) {

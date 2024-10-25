@@ -84,6 +84,8 @@ class Search extends React.Component {
 
   search(term) {
     const { search } = this.props;
+    // This is for testing elasticsearch.
+    search.elasticQuery(term)
 
     return search.query(term);
   }
