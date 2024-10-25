@@ -37,6 +37,37 @@ class Search {
     return `store-${this.frontlineClient.requireOption('storeId')}-public`;
   }
 
+  // This is for testing elasticsearch.
+  searchProducts(apiEndpoint, params) {
+    console.log('apiEndpoint: ', apiEndpoint)
+    const response = fetch(
+      `${apiEndpoint}/search/products.json?${params}`,
+      { method: "GET" }
+    );
+    console.log('response: ', response)
+
+    return response.json();
+  }
+
+  elasticQuery(text) {
+    const { onSearch } = this.options;
+    const { apiEndpoint, storeId } = this.frontlineClient.options
+
+    // Trigger user-defined onSearch callback
+    if (onSearch) {
+      onSearch(text);
+    }
+
+    const params = new URLSearchParams();
+    params.set('store_id', storeId);
+    params.set('text', text);
+
+    this.searchProducts(apiEndpoint, params).then((response) => {
+      console.log('response: ', response)
+      debugger
+    })
+  }
+
   mount(design) {
     this.log('Mounting search');
 
