@@ -39,14 +39,20 @@ class Search {
 
   // This is for testing elasticsearch.
   searchProducts(apiEndpoint, params) {
-    console.log('apiEndpoint: ', apiEndpoint)
-    const response = fetch(
+    fetch(
       `${apiEndpoint}/search/products.json?${params}`,
       { method: "GET" }
-    );
-    console.log('response: ', response)
-
-    return response.json();
+    ).then((response) => {
+      if (response.status >= 400) {
+        throw new Error("Bad response from server");
+      }
+      return response.json();
+    }).then((response) => {
+      console.log(
+        `${params.get('text')}: `,
+        response.products.map((product) => { return product.title})
+      );
+    });
   }
 
   elasticQuery(text) {
@@ -62,10 +68,7 @@ class Search {
     params.set('store_id', storeId);
     params.set('text', text);
 
-    this.searchProducts(apiEndpoint, params).then((response) => {
-      console.log('response: ', response)
-      debugger
-    })
+    this.searchProducts(apiEndpoint, params)
   }
 
   mount(design) {
