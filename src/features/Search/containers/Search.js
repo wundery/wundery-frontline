@@ -68,7 +68,14 @@ class Search extends React.Component {
     }
 
     this.setState(objectState);
-    this.search(term).then(
+    this.search(term).then((results) => {
+      console.log(
+        `[algoliasearch] ${term} (total: ${results.total}): `,
+        results.products.map((product) => { return product.title})
+      );
+    });
+
+    this.elasticSearch(term).then(
       this.searchSuccess,
       this.searchError,
     );
@@ -82,12 +89,18 @@ class Search extends React.Component {
     this.searchInputRef = ref;
   }
 
+  // Search by Algoliasearch.
   search(term) {
     const { search } = this.props;
-    // This is for testing elasticsearch.
-    search.elasticQuery(term)
 
     return search.query(term);
+  }
+
+  // Search by Elasticsearch.
+  elasticSearch(term) {
+    const { search } = this.props;
+
+    return search.elasticQuery(term);
   }
 
   searchSuccess = (results) => {

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { SearchApi } from 'wundery-js-lib';
 import { Search as SearchComponent } from 'features/Search';
+import "regenerator-runtime/runtime";
 
 class Search {
   static findNodeByDataAttribute() {
@@ -37,22 +38,13 @@ class Search {
     return `store-${this.frontlineClient.requireOption('storeId')}-public`;
   }
 
-  // This is for testing elasticsearch.
-  searchProducts(apiEndpoint, params) {
-    fetch(
+  // Search elastic documents from api.
+  async searchProducts(apiEndpoint, params) {
+    const response = await fetch(
       `${apiEndpoint}/search/products.json?${params}`,
       { method: "GET" }
-    ).then((response) => {
-      if (response.status >= 400) {
-        throw new Error("Bad response from server");
-      }
-      return response.json();
-    }).then((response) => {
-      console.log(
-        `${params.get('text')}: `,
-        response.products.map((product) => { return product.title})
-      );
-    });
+    )
+    return response.json();
   }
 
   elasticQuery(text) {
@@ -68,7 +60,22 @@ class Search {
     params.set('store_id', storeId);
     params.set('text', text);
 
-    this.searchProducts(apiEndpoint, params)
+    return new Promise((resolve, reject) => {
+      this.searchProducts(apiEndpoint, params).then((response) => {
+        if (response.error) {
+          reject(response.error.message);
+        } else {
+          console.log(
+            `[elasticsearch] ${text} (total: ${response.total}): `,
+            response.products.map((product) => { return product.title})
+          );
+          resolve(response)
+        }
+      })
+    }).catch(error => {
+      console.warn(error);
+      reject(String(error));
+    });
   }
 
   mount(design) {
