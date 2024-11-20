@@ -20,3 +20,4 @@ export zh from "./zh";
 export ckb from "./ckb";
 export nl from "./nl";
 export sl from "./sl";
+export sk from "./sk";
