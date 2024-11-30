@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { SearchApi } from 'wundery-js-lib';
 import { Search as SearchComponent } from 'features/Search';
+import "regenerator-runtime/runtime";
 
 class Search {
   static findNodeByDataAttribute() {
@@ -35,6 +36,46 @@ class Search {
 
   getIndexName() {
     return `store-${this.frontlineClient.requireOption('storeId')}-public`;
+  }
+
+  // Search elastic documents from api.
+  async searchProducts(apiEndpoint, params) {
+    const response = await fetch(
+      `${apiEndpoint}/search/products.json?${params}`,
+      { method: "GET" }
+    )
+    return response.json();
+  }
+
+  elasticQuery(text) {
+    const { onSearch } = this.options;
+    const { apiEndpoint, storeId } = this.frontlineClient.options
+
+    // Trigger user-defined onSearch callback
+    if (onSearch) {
+      onSearch(text);
+    }
+
+    const params = new URLSearchParams();
+    params.set('store_id', storeId);
+    params.set('text', text);
+
+    return new Promise((resolve, reject) => {
+      this.searchProducts(apiEndpoint, params).then((response) => {
+        if (response.error) {
+          reject(response.error.message);
+        } else {
+          console.log(
+            `[elasticsearch] ${text} (total: ${response.total}): `,
+            response.products.map((product) => { return product.title})
+          );
+          resolve(response)
+        }
+      })
+    }).catch(error => {
+      console.warn(error);
+      reject(String(error));
+    });
   }
 
   mount(design) {
