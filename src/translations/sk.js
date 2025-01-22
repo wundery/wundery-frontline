@@ -32,5 +32,9 @@ export default {
         },
       },
     },
+    notification: {
+      imageUploaded: "Obrázok bol úspešne nahraný!",
+      fileSizeExceeded: "Veľkosť súboru prekračuje limit 10MB.",
+    },
   },
 };

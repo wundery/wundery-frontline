@@ -32,5 +32,9 @@ export default {
         },
       },
     },
+    notification: {
+      imageUploaded: "Matagumpay na na-upload ang larawan!",
+      fileSizeExceeded: "Lumampas ang laki ng file sa limitasyong 10MB.",
+    },
   },
 };

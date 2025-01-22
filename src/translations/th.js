@@ -32,5 +32,9 @@ export default {
         },
       },
     },
+    notification: {
+      imageUploaded: "อัปโหลดรูปภาพสำเร็จ!",
+      fileSizeExceeded: "ขนาดไฟล์เกินขีดจำกัด 10MB",
+    },
   },
 };

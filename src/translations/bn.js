@@ -32,5 +32,9 @@ export default {
         },
       },
     },
+    notification: {
+      imageUploaded: "ছবি সফলভাবে আপলোড করা হয়েছে!",
+      fileSizeExceeded: "ফাইলের আকার 10MB সীমা অতিক্রম করেছে।",
+    },
   },
 };

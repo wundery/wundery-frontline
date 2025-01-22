@@ -32,5 +32,9 @@ export default {
         },
       },
     },
+    notification: {
+      imageUploaded: "Gambar berhasil diunggah!",
+      fileSizeExceeded: "Ukuran file melebihi batas 10MB.",
+    },
   },
 };

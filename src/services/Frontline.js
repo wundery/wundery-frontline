@@ -38,6 +38,9 @@ class Frontline {
     }
 
     translation.locale = this.options["locale"];
+
+    this.renderUploadedImages();
+    this.initImageUpload();
   }
 
   requireOption(name) {
@@ -167,54 +170,63 @@ class Frontline {
 
     const loadMoreBtn = document.querySelector(".load-more-btn");
     const loadingSpinner = loadMoreBtn && loadMoreBtn.querySelector("img");
-    const loadMoreBtnText = loadMoreBtn && loadMoreBtn.querySelector(".load-more-btn-text");
+    const loadMoreBtnText =
+      loadMoreBtn && loadMoreBtn.querySelector(".load-more-btn-text");
 
-    this.getProducts(apiEndpoint, params).then((response) => {
-      this.page = this.page + 1;
-      this.populateUI(response.html);
+    this.getProducts(apiEndpoint, params)
+      .then((response) => {
+        this.page = this.page + 1;
+        this.populateUI(response.html);
 
-      if (this.page == response.total_pages) {
-        const loadMore = document.querySelector(LOAD_INFINITY_CLASSES.loadMore);
-        if (loadMore) {
-          loadMore.remove();
+        if (this.page == response.total_pages) {
+          const loadMore = document.querySelector(
+            LOAD_INFINITY_CLASSES.loadMore
+          );
+          if (loadMore) {
+            loadMore.remove();
+          }
+
+          const loadMoreBtnWrapper = document.querySelector(
+            ".load-more-btn-wrapper"
+          );
+          if (loadMoreBtnWrapper) {
+            loadMoreBtnWrapper.remove();
+          }
+        } else {
+          if (loadMoreBtn) {
+            loadingSpinner.classList.add("display-off");
+            loadMoreBtnText.classList.remove("display-off");
+            loadMoreBtn.disabled = false;
+          }
         }
 
-        const loadMoreBtnWrapper = document.querySelector('.load-more-btn-wrapper');
-        if (loadMoreBtnWrapper) {
-          loadMoreBtnWrapper.remove();
-        }
-      } else {
+        this.loadingNow = false;
+      })
+      .catch((error) => {
+        console.error("Error loading products:", error);
+
         if (loadMoreBtn) {
-          loadingSpinner.classList.add('display-off');
-          loadMoreBtnText.classList.remove('display-off');
+          loadingSpinner.classList.add("display-off");
+          loadMoreBtnText.classList.remove("display-off");
           loadMoreBtn.disabled = false;
         }
-      }
 
-      this.loadingNow = false;
-    }).catch((error) => {
-      console.error('Error loading products:', error);
-
-      if (loadMoreBtn) {
-        loadingSpinner.classList.add('display-off');
-        loadMoreBtnText.classList.remove('display-off');
-        loadMoreBtn.disabled = false;
-      }
-
-      this.loadingNow = false;
-    });
+        this.loadingNow = false;
+      });
   };
 
   createObserver = (designId, storeId, categoryId, apiEndpoint) => {
     const intersectionObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          this.loadProducts(designId, storeId, categoryId, apiEndpoint)
+          this.loadProducts(designId, storeId, categoryId, apiEndpoint);
         }
       });
     });
 
-    const loadMoreElement = document.querySelector(LOAD_INFINITY_CLASSES.loadMore);
+    const loadMoreElement = document.querySelector(
+      LOAD_INFINITY_CLASSES.loadMore
+    );
 
     if (loadMoreElement) {
       intersectionObserver.observe(loadMoreElement);
@@ -242,16 +254,194 @@ class Frontline {
 
       const loadMoreBtn = document.querySelector(".load-more-btn");
       const loadingSpinner = loadMoreBtn && loadMoreBtn.querySelector("img");
-      const loadMoreBtnText = loadMoreBtn&& loadMoreBtn.querySelector(".load-more-btn-text");
-      if(loadMoreBtn && loadingSpinner && loadMoreBtnText) {
+      const loadMoreBtnText =
+        loadMoreBtn && loadMoreBtn.querySelector(".load-more-btn-text");
+      if (loadMoreBtn && loadingSpinner && loadMoreBtnText) {
         loadMoreBtn.addEventListener("click", () => {
-          loadingSpinner.classList.remove('display-off');
-          loadMoreBtnText.classList.add('display-off');
+          loadingSpinner.classList.remove("display-off");
+          loadMoreBtnText.classList.add("display-off");
           loadMoreBtn.disabled = true;
-          this.loadProducts(designId, storeId, categoryId, apiEndpoint)
-        })
+          this.loadProducts(designId, storeId, categoryId, apiEndpoint);
+        });
       }
     });
+  }
+
+  renderUploadedImages() {
+    document.addEventListener("DOMContentLoaded", () => {
+      const previewContainer = document.getElementById("preview-container");
+      const urlsElement = document.getElementById("uploaded-file-urls");
+      previewContainer.innerHTML = "";
+
+      if (urlsElement && urlsElement.value) {
+        try {
+          const uploadedUrls = JSON.parse(urlsElement.value);
+          if (Array.isArray(uploadedUrls)) {
+            uploadedUrls.forEach((url) => {
+              const imgElement = document.createElement("img");
+              imgElement.src = url;
+              imgElement.className = "w-full h-auto rounded-lg";
+              previewContainer.appendChild(imgElement);
+            });
+          }
+        } catch (error) {
+          console.error("Error parsing uploaded URLs:", error);
+        }
+      }
+    });
+  }
+
+  showNotification(message, type = "success", duration = 3000) {
+    const notification = document.createElement("div");
+    notification.className = `fixed top-[80px] right-[40px] bg-white border p-[5px_10px] rounded-[3px] text-[13px] font-normal border-[1px_solid_var(--error-color)] text-[var(--error-color)] shadow-md transition-opacity duration-300 opacity-0`;
+
+    if (type === "success") {
+      notification.style.borderColor = "var(--success-color)";
+      notification.style.color = "var(--success-color)";
+    } else {
+      notification.style.borderColor = "var(--error-color)";
+      notification.style.color = "var(--error-color)";
+    }
+
+    notification.innerHTML = `
+      <div class="wundery-cart-notification-message flex items-center gap-2">
+        <i class="fa-regular ${
+          type === "success" ? "fa-circle-check" : "fa-circle-xmark"
+        }"></i>
+        ${message}
+      </div>
+    `;
+
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+      notification.style.opacity = "1";
+    }, 100);
+
+    setTimeout(() => {
+      notification.style.opacity = "0";
+      setTimeout(() => {
+        notification.remove();
+      }, 300);
+    }, duration);
+  }
+
+  initImageUpload() {
+    document.addEventListener("DOMContentLoaded", () => {
+      console.log(
+        "translation..",
+        translation.value("features.notification.imageUploaded")
+      );
+      const chooseFileBtn = document.getElementById("choose-file-btn");
+      const uploadFileInput = document.getElementById("upload-file-input");
+      const spinnerImg = chooseFileBtn.querySelector("img");
+
+      chooseFileBtn.addEventListener("click", function () {
+        uploadFileInput.click();
+      });
+
+      uploadFileInput.addEventListener("change", async (event) => {
+        const previewContainer = document.getElementById("preview-container");
+        const urlsElement = document.getElementById("uploaded-file-urls");
+        let uploadedUrls = urlsElement.value
+          ? JSON.parse(urlsElement.value)
+          : [];
+
+        const files = event.target.files;
+
+        if (files.length) {
+          chooseFileBtn.disabled = true;
+          spinnerImg.classList.remove("hidden");
+
+          for (const file of files) {
+            try {
+              const response = await this.uploadImage(file);
+              if (response) {
+                uploadedUrls.push(response);
+                urlsElement.value = JSON.stringify(uploadedUrls);
+
+                this.showNotification(
+                  translation.value("features.notification.imageUploaded"),
+                  "success"
+                );
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                  const imgElement = document.createElement("img");
+                  imgElement.src = e.target.result;
+                  imgElement.className =
+                    "object-cover w-full h-auto rounded-lg md:h-32";
+                  previewContainer.appendChild(imgElement);
+                };
+                reader.readAsDataURL(file);
+              }
+            } catch (error) {
+              console.error("Image upload failed:", error);
+            }
+          }
+          chooseFileBtn.disabled = false;
+          spinnerImg.classList.add("hidden");
+        }
+      });
+    });
+  }
+
+  async uploadImage(file) {
+    const { storeId, apiEndpoint } = this.options;
+    const urlsElement = document.querySelector("#uploaded-file-urls");
+    const existingUrls = urlsElement.value ? JSON.parse(urlsElement.value) : [];
+
+    try {
+      // Step 1: Get signed URL
+      const signResponse = await fetch(`${apiEndpoint}/uploads/sign`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          filename: file.name,
+          content_type: file.type,
+          asset_type: "product_image",
+          imagable_title: file.name,
+          file_size: file.size,
+          store_id: storeId,
+        }),
+      });
+      const signData = await signResponse.json();
+      if (signResponse.status === 422) {
+        this.showNotification(
+          translation.value("features.notification.fileSizeExceeded"),
+          "error"
+        );
+        return;
+      }
+      const { url, fields } = signData;
+
+      // Step 2: Upload file to S3
+      const formData = new FormData();
+      Object.keys(fields).forEach((key) => {
+        formData.append(key, fields[key]);
+      });
+      formData.append("file", file);
+
+      const uploadResponse = await fetch(url, {
+        method: "POST",
+        body: formData,
+      });
+      if (!uploadResponse.ok) {
+        throw new Error(
+          `Failed to upload file to S3: ${uploadResponse.statusText}`
+        );
+      }
+
+      const fileUrl = `${url}/${fields.key}`;
+      existingUrls.push(fileUrl);
+      urlsElement.value = JSON.stringify(existingUrls);
+
+      return fileUrl;
+    } catch (error) {
+      throw error;
+    }
   }
 }
 

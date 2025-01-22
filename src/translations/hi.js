@@ -32,5 +32,9 @@ export default {
         },
       },
     },
+    notification: {
+      imageUploaded: "छवि सफलतापूर्वक अपलोड की गई!",
+      fileSizeExceeded: "फाइल का आकार 10MB की सीमा से अधिक है।",
+    },
   },
 };

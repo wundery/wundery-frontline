@@ -32,5 +32,9 @@ export default {
         },
       },
     },
+    notification: {
+      imageUploaded: "ပုံတင်ခြင်းအောင်မြင်ပါသည်။",
+      fileSizeExceeded: "ဖိုင်အရွယ်အစားသည် 10MB ကန့်သတ်ချက်ကိုကျော်လွန်သည်။",
+    },
   },
 };
