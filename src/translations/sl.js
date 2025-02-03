@@ -32,5 +32,9 @@ export default {
         },
       },
     },
+    notification: {
+      imageUploaded: "Slika je bila uspešno naložena!",
+      fileSizeExceeded: "Velikost datoteke presega omejitev 10MB.",
+    },
   },
 };

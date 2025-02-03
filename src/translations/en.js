@@ -6,31 +6,35 @@ export default {
     cart: {
       containers: {
         cartbox: {
-          cart: 'Cart',
+          cart: "Cart",
         },
       },
     },
     cookieBanner: {
       containers: {
         cookieBanner: {
-          info: 'This website uses cookies.',
-          acknowledge: 'Okay, got it',
-          more: 'More information',
+          info: "This website uses cookies.",
+          acknowledge: "Okay, got it",
+          more: "More information",
         },
       },
     },
     search: {
       components: {
         searchResults: {
-          noResultsHeadline: 'No products found',
-          oneResultHeadline: 'One product found',
-          resultsHeadline: '${resultsCount} products were found',
-          seeAll: 'See all results (${count})'
+          noResultsHeadline: "No products found",
+          oneResultHeadline: "One product found",
+          resultsHeadline: "${resultsCount} products were found",
+          seeAll: "See all results (${count})",
         },
         searchInput: {
-          placeholder: 'Search',
+          placeholder: "Search",
         },
       },
+    },
+    notification: {
+      imageUploaded: "Image uploaded successfully!",
+      fileSizeExceeded: "File size exceeds the 10MB limit.",
     },
   },
 };

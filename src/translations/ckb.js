@@ -32,5 +32,9 @@ export default {
         },
       },
     },
+    notification: {
+      imageUploaded: "وێنەکە بەسەرکەوتوویی بارکرا!",
+      fileSizeExceeded: "قەبارەی فایلەکە لە سنووری ١٠MB زیاترە.",
+    },
   },
 };

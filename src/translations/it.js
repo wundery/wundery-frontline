@@ -6,31 +6,35 @@ export default {
     cart: {
       containers: {
         cartbox: {
-          cart: 'Carrello',
+          cart: "Carrello",
         },
       },
     },
     cookieBanner: {
       containers: {
         cookieBanner: {
-          info: 'Questo sito utilizza cookies.',
-          acknowledge: 'Ok, ho capito',
-          more: 'Maggiori informazioni',
+          info: "Questo sito utilizza cookies.",
+          acknowledge: "Ok, ho capito",
+          more: "Maggiori informazioni",
         },
       },
     },
     search: {
       components: {
         searchResults: {
-          noResultsHeadline: 'Nessun prodotto trovato',
-          oneResultHeadline: 'Un prodotto trovato',
-          resultsHeadline: 'Sono stati trovati ${resultsCount} prodotti',
-          seeAll: 'Visualizza tutti i (${count}) risultati'
+          noResultsHeadline: "Nessun prodotto trovato",
+          oneResultHeadline: "Un prodotto trovato",
+          resultsHeadline: "Sono stati trovati ${resultsCount} prodotti",
+          seeAll: "Visualizza tutti i (${count}) risultati",
         },
         searchInput: {
-          placeholder: 'Ricerca',
+          placeholder: "Ricerca",
         },
       },
+    },
+    notification: {
+      imageUploaded: "Immagine caricata con successo!",
+      fileSizeExceeded: "La dimensione del file supera il limite di 10MB.",
     },
   },
 };

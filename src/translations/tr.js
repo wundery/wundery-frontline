@@ -32,5 +32,9 @@ export default {
         },
       },
     },
+    notification: {
+      imageUploaded: "Görsel başarıyla yüklendi!",
+      fileSizeExceeded: "Dosya boyutu 10MB sınırını aşıyor.",
+    },
   },
 };

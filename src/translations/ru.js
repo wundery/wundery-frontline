@@ -32,5 +32,9 @@ export default {
         },
       },
     },
+    notification: {
+      imageUploaded: "Изображение успешно загружено!",
+      fileSizeExceeded: "Размер файла превышает лимит в 10MB.",
+    },
   },
 };

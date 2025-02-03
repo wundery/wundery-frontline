@@ -6,31 +6,35 @@ export default {
     cart: {
       containers: {
         cartbox: {
-          cart: 'عربة التسوق',
+          cart: "عربة التسوق",
         },
       },
     },
     cookieBanner: {
       containers: {
         cookieBanner: {
-          info: 'هذا الموقع يستخدم ملفات تعريق الارتباط.',
-          acknowledge: 'حسنًا، لقد حصلت عليه',
-          more: 'المزيد من المعلومات',
+          info: "هذا الموقع يستخدم ملفات تعريق الارتباط.",
+          acknowledge: "حسنًا، لقد حصلت عليه",
+          more: "المزيد من المعلومات",
         },
       },
     },
     search: {
       components: {
         searchResults: {
-          noResultsHeadline: 'لم يتم العثور على أي منتجات',
-          oneResultHeadline: 'تم العثور على منتج واحد',
-          resultsHeadline: '${resultsCount} تم العثور على منتج..',
-          seeAll: 'مشاهدة كل النتائج (${count})'
+          noResultsHeadline: "لم يتم العثور على أي منتجات",
+          oneResultHeadline: "تم العثور على منتج واحد",
+          resultsHeadline: "${resultsCount} تم العثور على منتج..",
+          seeAll: "مشاهدة كل النتائج (${count})",
         },
         searchInput: {
-          placeholder: 'بحث',
+          placeholder: "بحث",
         },
       },
+    },
+    notification: {
+      imageUploaded: "تم تحميل الصورة بنجاح!",
+      fileSizeExceeded: "حجم الملف يتجاوز الحد الأقصى 10 ميجابايت.",
     },
   },
 };

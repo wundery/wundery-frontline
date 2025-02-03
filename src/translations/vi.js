@@ -32,5 +32,9 @@ export default {
         },
       },
     },
+    notification: {
+      imageUploaded: "Ảnh đã được tải lên thành công!",
+      fileSizeExceeded: "Kích thước tệp vượt quá giới hạn 10MB.",
+    },
   },
 };

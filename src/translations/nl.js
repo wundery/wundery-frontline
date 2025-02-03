@@ -32,5 +32,9 @@ export default {
         },
       },
     },
+    notification: {
+      imageUploaded: "Afbeelding succesvol geüpload!",
+      fileSizeExceeded: "Bestandsgrootte overschrijdt de limiet van 10MB.",
+    },
   },
 };
