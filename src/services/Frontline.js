@@ -328,10 +328,6 @@ class Frontline {
 
   initImageUpload() {
     document.addEventListener("DOMContentLoaded", () => {
-      console.log(
-        "translation..",
-        translation.value("features.notification.imageUploaded")
-      );
       const chooseFileBtn = document.getElementById("choose-file-btn");
       const uploadFileInput = document.getElementById("upload-file-input");
       const spinnerImg = chooseFileBtn.querySelector("img");
@@ -367,11 +363,36 @@ class Frontline {
 
                 const reader = new FileReader();
                 reader.onload = function (e) {
+                  // Create image wrapper
+                  const imgWrapper = document.createElement("div");
+                  imgWrapper.className = "relative inline-block w-32 h-32";
+                  // Create image element
                   const imgElement = document.createElement("img");
                   imgElement.src = e.target.result;
                   imgElement.className =
                     "object-cover w-full h-auto rounded-lg md:h-32";
-                  previewContainer.appendChild(imgElement);
+                  // Create remove button
+                  const removeButton = document.createElement("button");
+                  removeButton.innerHTML = "&times;";
+                  removeButton.className =
+                    "absolute top-0 right-0 flex items-center justify-center w-6 h-6 mt-1 mr-1 rounded-full cursor-pointer bg-[var(--button-color)] text-white";
+                  removeButton.onclick = function () {
+                    // Get the latest uploadedUrls
+                    let latestUploadedUrls = urlsElement.value
+                      ? JSON.parse(urlsElement.value)
+                      : [];
+                    latestUploadedUrls = latestUploadedUrls.filter(
+                      (url) => url !== response
+                    );
+                    // Update hidden input with new values
+                    urlsElement.value = JSON.stringify(latestUploadedUrls);
+                    // Remove the image wrapper from UI
+                    imgWrapper.remove();
+                  };
+                  // Append elements
+                  imgWrapper.appendChild(imgElement);
+                  imgWrapper.appendChild(removeButton);
+                  previewContainer.appendChild(imgWrapper);
                 };
                 reader.readAsDataURL(file);
               }
