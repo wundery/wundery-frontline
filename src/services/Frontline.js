@@ -155,6 +155,11 @@ class Frontline {
     return response.json();
   }
 
+  getCookieValue = (name) => {
+    const match = document.cookie.match(new RegExp(`(^| )${name}=([^;]+)`));
+    return match ? match[2] : "";
+  };
+
   loadProducts = (designId, storeId, categoryId, apiEndpoint) => {
     if (this.loadingNow) {
       return;
@@ -164,6 +169,7 @@ class Frontline {
     const params = new URLSearchParams();
     params.set("store_id", storeId);
     params.set("category_id", categoryId);
+    params.set("customer_id", this.getCookieValue("secure_customer_sig"));
     params.set("page", this.page + 1);
     params.set("design_id", designId);
     params.set("q", new URLSearchParams(document.location.search).get("q"));
