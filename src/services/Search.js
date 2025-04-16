@@ -23,6 +23,7 @@ class Search {
     });
   }
 
+  // TODO(ken): Remove this legacy Algolia search.
   query(term) {
     const { onSearch } = this.options;
 
