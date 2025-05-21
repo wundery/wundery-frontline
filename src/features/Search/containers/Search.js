@@ -81,13 +81,6 @@ class Search extends React.Component {
     this.searchInputRef = ref;
   };
 
-  // Search by Algoliasearch.
-  search(term) {
-    const { search } = this.props;
-
-    return search.query(term);
-  }
-
   // Search by Elasticsearch.
   elasticSearch(term) {
     const { search } = this.props;
