@@ -249,10 +249,13 @@ class Frontline {
 
   pagination() {
     document.addEventListener("DOMContentLoaded", () => {
-      const categoryId = document
-        .querySelector(LOAD_INFINITY_CLASSES.category)
-        .getAttribute("data-id");
+      const category = document.querySelector(LOAD_INFINITY_CLASSES.category);
+      if (!category) {
+        console.warn("Category element not found");
+        return;
+      }
 
+      const categoryId = category.getAttribute("data-id");
       const { designId, storeId, apiEndpoint } = this.options;
       if (categoryId) {
         this.createObserver(designId, storeId, categoryId, apiEndpoint);
@@ -277,6 +280,11 @@ class Frontline {
     document.addEventListener("DOMContentLoaded", () => {
       const previewContainer = document.getElementById("preview-container");
       const urlsElement = document.getElementById("uploaded-file-urls");
+      if (!previewContainer || !urlsElement) {
+        console.warn("Required elements for image upload not found");
+        return;
+      }
+
       previewContainer.innerHTML = "";
 
       if (urlsElement && urlsElement.value) {
@@ -336,6 +344,11 @@ class Frontline {
     document.addEventListener("DOMContentLoaded", () => {
       const chooseFileBtn = document.getElementById("choose-file-btn");
       const uploadFileInput = document.getElementById("upload-file-input");
+      if (!chooseFileBtn || !uploadFileInput) {
+        console.warn("Required elements for image upload not found");
+        return;
+      }
+
       const spinnerImg = chooseFileBtn.querySelector("img");
 
       chooseFileBtn.addEventListener("click", function () {
